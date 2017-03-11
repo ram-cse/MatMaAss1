@@ -1,6 +1,6 @@
 package ass1.packet.encryption;
 
-public class DES extends Cryptor{
+public class DES_Tai extends Cryptor{
 
 	@Override
 	public byte[] ecrypt(byte[] plain) {
