@@ -12,8 +12,6 @@ import java.net.Socket;
 
 import javax.management.loading.PrivateClassLoader;
 
-import ass1.packet.client.Config.AlgType;
-
 public class SendingPeer extends Thread{
 	
 	private Files files;
@@ -43,21 +41,8 @@ public class SendingPeer extends Thread{
 			
 			byte[] buf = new byte[BUFFER_SIZE];
 			int count, read_bytes=0;
-			// 
-			System.out.println("my key is : 10101010");
-			AlgType config = Config.getAlgName();
-			
-			if (config == AlgType.RSA) {
-				
-			}
-			//
-			
-		
 			
 			while((count = bis.read(buf)) != -1){
-				
-				
-				
 				read_bytes = read_bytes + count;
 				long p = (read_bytes / files.getSize()) / 11;
 				output.write(buf, 0, count); // write bytes to Output stream
