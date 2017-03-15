@@ -1,19 +1,16 @@
 package ass1.packet.client;
 
 import java.io.BufferedInputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.StringTokenizer;
-import java.util.jar.Attributes.Name;
 
-import javax.security.auth.login.FailedLoginException;
 import javax.swing.JOptionPane;
+
+import ass1.packet.encryption.Cryptor;
+import ass1.packet.helper.App;
 
 public class ReceivingPeer extends Thread {
 	
@@ -38,7 +35,7 @@ public class ReceivingPeer extends Thread {
 	public void run() {
 		Socket socket;
 		DataOutputStream output;
-		int BUFFER_SIZE = 1024;
+		int BUFFER_SIZE = 128;
 
 		InputStream is = null;
 		OutputStream os = null;
@@ -54,10 +51,20 @@ public class ReceivingPeer extends Thread {
 			BufferedInputStream bis = new BufferedInputStream(is);
 			byte[] buf = new byte[BUFFER_SIZE];
 			int count, reads = 0;
+			
+			//@2017
+			Cryptor cryptor = App.getDownloadingCryptor();
+			byte[] plain;
+			
 			while ((count = bis.read(buf)) != -1) {
-				os.write(buf, 0, count);
+				
+				//DECRYPT @2017
+				plain = cryptor.decrypt(buf);
+				//WRITE PLAIN_TEXT @2017
+				os.write(plain, 0, plain.length);
+				
 				reads = reads + count;
-				long p = (reads / fileSize) / 11;
+				long p = (reads / (fileSize != 0 ? fileSize : 1)) / 11;
 				clientWindow.updateStatus(row_index, p, "Downloading");
 			}
 			clientWindow.updateStatus(row_index, 100, "Complete");
@@ -65,6 +72,7 @@ public class ReceivingPeer extends Thread {
 			is.close();
 			JOptionPane.showMessageDialog(null, "Download Complete !\nFile : " + fileName, "SUCCESS !", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Download Fail !", "ERROR !", JOptionPane.ERROR_MESSAGE);
 		} 
 	}

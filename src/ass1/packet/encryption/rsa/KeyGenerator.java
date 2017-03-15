@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import ass1.packet.utils.FileUtils;
+import ass1.packet.helper.FileUtils;
 
 /**
  * @author vrams
@@ -18,7 +18,7 @@ public class KeyGenerator {
 	}
 
 	private BigInteger n, d, e;
-	private int bitlen = 1024;
+	private int bitlen = 1024; // 128 bytes
 
 	public KeyGenerator() {
 		generateKey();

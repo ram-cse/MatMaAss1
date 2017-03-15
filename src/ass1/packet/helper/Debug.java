@@ -1,4 +1,4 @@
-package ass1.packet.utils;
+package ass1.packet.helper;
 
 public class Debug {
 	

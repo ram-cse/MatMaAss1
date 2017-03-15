@@ -5,6 +5,8 @@ import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -32,6 +34,13 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import ass1.packet.helper.App;
+import ass1.packet.helper.App.AlgType;
+import ass1.packet.helper.Debug;
+
+import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
 
 public class ClientWindow extends JFrame implements Runnable{
 
@@ -185,7 +194,7 @@ public class ClientWindow extends JFrame implements Runnable{
 				btnDownload.setEnabled(false);
 			}
 		});
-		btnDownload.setBounds(695, 30, 89, 23);
+		btnDownload.setBounds(702, 49, 89, 23);
 		contentPane.add(btnDownload);
 		
 		txtSearch = new JTextField();
@@ -250,7 +259,7 @@ public class ClientWindow extends JFrame implements Runnable{
 				btnShare.setEnabled(false);
 			}
 		});
-		btnShare.setBounds(695, 317, 89, 23);
+		btnShare.setBounds(702, 349, 89, 23);
 		contentPane.add(btnShare);
 		
 		txtFilePath = new JTextField();
@@ -285,7 +294,7 @@ public class ClientWindow extends JFrame implements Runnable{
 				btnDelete.setEnabled(false);
 			}
 		});
-		btnDelete.setBounds(695, 397, 89, 23);
+		btnDelete.setBounds(702, 493, 89, 23);
 		contentPane.add(btnDelete);
 		listUser.setFont(new Font("Times New Roman", 0, 24));
 		
@@ -350,6 +359,85 @@ public class ClientWindow extends JFrame implements Runnable{
 		});
 		button.setBounds(695, 251, 89, 23);
 		contentPane.add(button);
+		
+		JComboBox<String> combSelectAlg = new JComboBox<String>();
+		combSelectAlg.addItem("RSA");
+		combSelectAlg.addItem("DES");
+		combSelectAlg.addItem("AES");
+		combSelectAlg.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent item) {
+				if(item.getItem().toString().equals("RSA")){
+					App.setSendingAlgName(AlgType.RSA);
+					Debug.d("SELECTED", "RSA");
+				}else if(item.getItem().toString().equals("DES")){
+					App.setSendingAlgName(AlgType.DES);
+					Debug.d("SELECTED", "DES");
+				}else if(item.getItem().toString().equals("AES")){
+					App.setSendingAlgName(AlgType.AES);
+					Debug.d("SELECTED", "AES");
+				}	
+			}
+		});
+		combSelectAlg.setBounds(721, 318, 63, 20);
+		contentPane.add(combSelectAlg);
+		combSelectAlg.setSelectedIndex(0);
+		App.setSendingAlgName(AlgType.RSA);
+		
+		JLabel lblAl = new JLabel("AL:");
+		lblAl.setBounds(702, 321, 46, 14);
+		contentPane.add(lblAl);
+		
+		JComboBox<String> comboBoxReceiveAlSelect = new JComboBox<String>();
+		comboBoxReceiveAlSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		comboBoxReceiveAlSelect.setBounds(721, 18, 63, 20);
+		
+		comboBoxReceiveAlSelect.addItem("RSA");
+		comboBoxReceiveAlSelect.addItem("DES");
+		comboBoxReceiveAlSelect.addItem("AES");
+		comboBoxReceiveAlSelect.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent item) {
+				if(item.getItem().toString().equals("RSA")){
+					App.setDownloadingAlgName(AlgType.RSA);
+					Debug.d("SELECTED", "RSA");
+				}else if(item.getItem().toString().equals("DES")){
+					App.setDownloadingAlgName(AlgType.DES);
+					Debug.d("SELECTED", "DES");
+				}else if(item.getItem().toString().equals("DES")){
+					App.setDownloadingAlgName(AlgType.AES);
+					Debug.d("SELECTED", "AES");
+				}	
+			}
+		});
+		comboBoxReceiveAlSelect.setSelectedIndex(0);
+		App.setDownloadingAlgName(AlgType.RSA);
+		contentPane.add(comboBoxReceiveAlSelect);
+		
+		JLabel lblAl_1 = new JLabel("AL:");
+		lblAl_1.setBounds(702, 21, 46, 14);
+		contentPane.add(lblAl_1);
+		
+		JButton btnCheckMd = new JButton("Check MD5");
+		btnCheckMd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCheckMd.setBounds(702, 411, 89, 23);
+		contentPane.add(btnCheckMd);
+		
+		JButton btnCheck = new JButton("Check SHA ");
+		btnCheck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnCheck.setBounds(702, 445, 89, 23);
+		contentPane.add(btnCheck);
 		
 		
 		addWindowListener(new WindowAdapter() {

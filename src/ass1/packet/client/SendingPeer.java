@@ -12,6 +12,10 @@ import java.net.Socket;
 
 import javax.management.loading.PrivateClassLoader;
 
+import ass1.packet.encryption.Cryptor;
+import ass1.packet.helper.App;
+import ass1.packet.helper.Debug;
+
 public class SendingPeer extends Thread{
 	
 	private Files files;
@@ -26,9 +30,12 @@ public class SendingPeer extends Thread{
 
 	
 	public void run() {		
-		DataOutputStream output;
 		
-		final int BUFFER_SIZE = 1024;
+		final int BUFFER_SIZE = 128;
+		BufferedInputStream bis = null;
+		InputStream input = null;
+		DataOutputStream output = null;
+
 		
 		try {
 			Socket socket = serverSocket.accept();
@@ -36,25 +43,43 @@ public class SendingPeer extends Thread{
 			output = new DataOutputStream(socket.getOutputStream());
 			// write our username
 			
-			InputStream input = new FileInputStream(new File(files.getAbsolutePath()));
-			BufferedInputStream bis = new BufferedInputStream(input);
+			input = new FileInputStream(new File(files.getAbsolutePath()));
+			bis = new BufferedInputStream(input);
 			
 			byte[] buf = new byte[BUFFER_SIZE];
 			int count, read_bytes=0;
 			
-			while((count = bis.read(buf)) != -1){
+			Cryptor cryptor = App.getSendingCryptor();
+			byte[] cypher;
+			long len = 0;
+			int  i = 0;
+			while((count = bis.read(buf)) != -1){ i++;
 				read_bytes = read_bytes + count;
-				long p = (read_bytes / files.getSize()) / 11;
-				output.write(buf, 0, count); // write bytes to Output stream
+				/*long p = (read_bytes / files.getSize()) / 11;*/
+				
+				//Encrypt
+				cypher = cryptor.encrypt(buf);
+				
+				len += cypher.length;
+				if(i % 5 == 0 || i == 1){
+					Debug.d("cypherlen", cypher.length +"- buff:" + buf.length);
+				}
+				//Send Cypher
+				output.write(cypher, 0, cypher.length); // write bytes to Output stream
 			}
-			
-			output.flush();
-			bis.close();
-			input.close();
-			output.close();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				output.flush();
+				bis.close();
+				input.close();
+				output.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

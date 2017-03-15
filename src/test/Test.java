@@ -8,8 +8,8 @@ import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 
-import ass1.packet.utils.Debug;
-import ass1.packet.utils.FileUtils;
+import ass1.packet.helper.Debug;
+import ass1.packet.helper.FileUtils;
 
 public class Test {
 	

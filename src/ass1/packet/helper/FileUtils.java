@@ -1,4 +1,4 @@
-package ass1.packet.utils;
+package ass1.packet.helper;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
