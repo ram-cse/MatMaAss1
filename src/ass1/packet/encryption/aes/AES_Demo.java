@@ -1,4 +1,4 @@
-package ass1.packet.encryption;
+package ass1.packet.encryption.aes;
 
 import java.io.File;
 
