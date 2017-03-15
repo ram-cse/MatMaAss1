@@ -24,18 +24,34 @@ import javax.crypto.spec.SecretKeySpec;
 public class AES {
 	private byte[] _key;
 	private byte[] _initVector;
+	private File _pathFileEncrypted;
 	
 	
 	/*
 	 * Encrypt
 	 * 
 	 */
-    public void encrypt (File inputFile, File outputFile) throws CryptoException {
+    public void encrypt (File inputFile) throws CryptoException {
     	this._key = this.generateKey();
     	this._initVector = this.generateIv();
     	
+    	// outputFile = inputFile rename (ex: abcd.mp3 -> abcd_encrypted.mp3)
+    	int posOfDot = inputFile.getName().lastIndexOf('.');
+    	
+		String nameFile = inputFile.getName().substring(0, posOfDot);
+		String extension = inputFile.getName().substring(posOfDot);
+		
+		nameFile = nameFile + "_encrypted" + extension;
+		
+		String pathFile = inputFile.getParent();
+		if (pathFile != null) {
+			nameFile = pathFile + nameFile;
+		}
+		
+		this._pathFileEncrypted = new File(nameFile);
+    	
         try {
-			doCrypto(Cipher.ENCRYPT_MODE, _key, _initVector, inputFile, outputFile);
+			doCrypto(Cipher.ENCRYPT_MODE, _key, _initVector, inputFile, _pathFileEncrypted);
 		} catch (InvalidAlgorithmParameterException e) {
 			e.printStackTrace();
 		}
@@ -120,16 +136,23 @@ public class AES {
     /*
      *  Get Key
      */
-    public byte[] getKey () {
-    	return this._key;
+    public byte[] get_Key () {
+    	return _key;
     }
     
     /*
      *  Get IV
      */
-    public byte[] getIv () {
-    	return this._initVector;
+    public byte[] get_Iv () {
+    	return _initVector;
     }
+
+    /*
+     *  Get path file encrypted
+     */
+	public File get_pathFileEncrypted() {
+		return _pathFileEncrypted;
+	}
     
    
 }

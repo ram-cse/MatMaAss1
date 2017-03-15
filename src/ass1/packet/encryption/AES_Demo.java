@@ -9,12 +9,13 @@ public class AES_Demo {
     	AES aes = new AES();
     	
         File inputFile = new File("Faded.mp4");
-        File encryptedFile = new File("Faded_decrypted.mp4");
-        File decryptedFile = new File("Faded_decrypted.mp4");
+       // File decryptedFile = new File("Faded_decrypted.mp4");
          
+        
+        
         try {
-			aes.encrypt(inputFile, encryptedFile);
-			aes.decrypt(aes.getKey(),aes.getIv(), decryptedFile);
+			aes.encrypt(inputFile);
+			aes.decrypt(aes.get_Key(),aes.get_Iv(), aes.get_pathFileEncrypted());
 		} catch (CryptoException e) {
 			e.printStackTrace();
 		}
