@@ -1,4 +1,4 @@
-package DES;
+package ass1.packet.encryption;
 
 import javax.crypto.spec.*;
 import java.security.*;
