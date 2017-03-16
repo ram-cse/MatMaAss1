@@ -71,7 +71,7 @@ public class CheckSumDialog extends JDialog {
 		getContentPane().setLayout(springLayout);
 		getContentPane().add(btnSourceFile);
 		
-		JButton btnDestination = new JButton("Des file...");
+		JButton btnDestination = new JButton("Dest file...");
 		springLayout.putConstraint(SpringLayout.WEST, btnDestination, 0, SpringLayout.WEST, btnSourceFile);
 		btnDestination.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -254,7 +254,7 @@ public class CheckSumDialog extends JDialog {
 			String sha256Src = HashGeneratorUtils.generateSHA256(src);
 			String sha256Dest = HashGeneratorUtils.generateSHA256(dest);
 			lbSha256Src.setText("Src file: " + sha256Src);
-			lbSha256Dest.setText(sha256Dest);
+			lbSha256Dest.setText("Dest file: " + sha256Dest);
 			lbSha256Comp.setText(sha256Src.equals(sha256Dest) ? 
 					"Two files have the same SHA-256"
 					:"Two files don't have the same SHA-256"
