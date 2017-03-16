@@ -31,7 +31,7 @@ public class SendingPeer extends Thread{
 	
 	public void run() {		
 		
-		final int BUFFER_SIZE = 128;
+		final int BUFFER_SIZE = 56 /8;
 		BufferedInputStream bis = null;
 		InputStream input = null;
 		DataOutputStream output = null;
@@ -51,7 +51,6 @@ public class SendingPeer extends Thread{
 			
 			Cryptor cryptor = App.getSendingCryptor();
 			byte[] cypher;
-			long len = 0;
 			int  i = 0;
 			while((count = bis.read(buf)) != -1){ i++;
 				read_bytes = read_bytes + count;
@@ -60,10 +59,9 @@ public class SendingPeer extends Thread{
 				//Encrypt
 				cypher = cryptor.encrypt(buf);
 				
-				len += cypher.length;
-				if(i % 5 == 0 || i == 1){
+				/*if(i % 5 == 0 || i == 1){
 					Debug.d("cypherlen", cypher.length +"- buff:" + buf.length);
-				}
+				}*/
 				//Send Cypher
 				output.write(cypher, 0, cypher.length); // write bytes to Output stream
 			}

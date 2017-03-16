@@ -423,21 +423,19 @@ public class ClientWindow extends JFrame implements Runnable{
 		lblAl_1.setBounds(702, 21, 46, 14);
 		contentPane.add(lblAl_1);
 		
-		JButton btnCheckMd = new JButton("Check MD5");
+		JButton btnCheckMd = new JButton("Check SUM");
 		btnCheckMd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CheckSumDialog dialog = new CheckSumDialog();
+				dialog.setResizable(false);
+                dialog.setLocationRelativeTo(getRootPane());
+                dialog.setModal(true);
+                dialog.setVisible(true);
+                dialog.setDefaultCloseOperation(HIDE_ON_CLOSE);
 			}
 		});
 		btnCheckMd.setBounds(702, 411, 89, 23);
 		contentPane.add(btnCheckMd);
-		
-		JButton btnCheck = new JButton("Check SHA ");
-		btnCheck.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnCheck.setBounds(702, 445, 89, 23);
-		contentPane.add(btnCheck);
 		
 		
 		addWindowListener(new WindowAdapter() {

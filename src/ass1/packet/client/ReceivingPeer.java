@@ -35,7 +35,7 @@ public class ReceivingPeer extends Thread {
 	public void run() {
 		Socket socket;
 		DataOutputStream output;
-		int BUFFER_SIZE = 128;
+		int BUFFER_SIZE = 56 / 8;
 
 		InputStream is = null;
 		OutputStream os = null;
