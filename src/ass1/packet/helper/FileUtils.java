@@ -2,13 +2,34 @@ package ass1.packet.helper;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class FileUtils {
 
 	public static String ASSEST_DIR = "./src/assest";
+	
+	public static boolean isFileExist(String fileName){
+		File file = new File(fileName);
+		return file.exists();
+	}
+	
+	public static Object readFileObject(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException{
+	    Object obj = null;
+		ObjectInputStream inputStream = null;
+	    try{
+		    inputStream = new ObjectInputStream(new FileInputStream(fileName));
+		     obj =  inputStream.readObject();
+	    }finally {
+		    inputStream.close();
+		}
+		return obj;
+	}
 
 	public static String readPlainFile(String fileName) throws IOException {
 		StringBuilder result = new StringBuilder();

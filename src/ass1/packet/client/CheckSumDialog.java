@@ -19,6 +19,8 @@ import ass1.packet.helper.Debug;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 
@@ -104,7 +106,7 @@ public class CheckSumDialog extends JDialog {
 		springLayout.putConstraint(SpringLayout.EAST, txtSrc, -106, SpringLayout.WEST, btnCheckSha);
 		getContentPane().add(txtSrc);
 		txtSrc.setColumns(10);
-		txtSrc.setEnabled(false);
+		txtSrc.setEditable(false);
 		
 		txtDes = new JTextField();
 		springLayout.putConstraint(SpringLayout.WEST, txtDes, 9, SpringLayout.WEST, getContentPane());
@@ -113,7 +115,7 @@ public class CheckSumDialog extends JDialog {
 		springLayout.putConstraint(SpringLayout.NORTH, txtDes, 12, SpringLayout.SOUTH, txtSrc);
 		getContentPane().add(txtDes);
 		txtDes.setColumns(10);
-		txtDes.setEnabled(false);
+		txtDes.setEditable(false);
 		
 		lbMd5 = new JLabel("MD5:");
 		springLayout.putConstraint(SpringLayout.WEST, lbMd5, 0, SpringLayout.WEST, txtSrc);
@@ -214,6 +216,7 @@ public class CheckSumDialog extends JDialog {
 		File dest = fileChooserDes.getSelectedFile();
 		if(src == null || !src.exists() || dest == null || !dest.exists()){
 			Debug.d("doCheckSum()", "Dest Or Src File Not Found");
+			JOptionPane.showMessageDialog(this, "Dest Or Src File Not Found");
 			return;
 		}
 		//CHECK MD5

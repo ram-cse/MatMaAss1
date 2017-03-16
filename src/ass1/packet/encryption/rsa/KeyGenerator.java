@@ -26,8 +26,8 @@ public class KeyGenerator {
 
 	private void seek() {
 		SecureRandom r = new SecureRandom();
-		BigInteger p = new BigInteger(bitlen / 2, 100, r);
-		BigInteger q = new BigInteger(bitlen / 2, 100, r);
+		BigInteger p = new BigInteger(bitlen/2, 100, r);
+		BigInteger q = new BigInteger(bitlen/2, 100, r);
 		/*
 		 * Debug.d("p", p); Debug.d("q", q);
 		 */

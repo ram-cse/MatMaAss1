@@ -31,7 +31,7 @@ public class SendingPeer extends Thread{
 	
 	public void run() {		
 		
-		final int BUFFER_SIZE = 56 /8;
+		final int BUFFER_SIZE = 64;
 		BufferedInputStream bis = null;
 		InputStream input = null;
 		DataOutputStream output = null;
@@ -53,9 +53,7 @@ public class SendingPeer extends Thread{
 			byte[] cypher;
 			int  i = 0;
 			while((count = bis.read(buf)) != -1){ i++;
-				read_bytes = read_bytes + count;
-				/*long p = (read_bytes / files.getSize()) / 11;*/
-				
+				read_bytes = read_bytes + count;				
 				//Encrypt
 				cypher = cryptor.encrypt(buf);
 				

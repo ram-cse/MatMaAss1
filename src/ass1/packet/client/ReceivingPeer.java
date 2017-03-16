@@ -35,7 +35,7 @@ public class ReceivingPeer extends Thread {
 	public void run() {
 		Socket socket;
 		DataOutputStream output;
-		int BUFFER_SIZE = 56 / 8;
+		int BUFFER_SIZE = 1024 / 8;  // == RSA KEY
 
 		InputStream is = null;
 		OutputStream os = null;

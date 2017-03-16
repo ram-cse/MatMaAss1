@@ -39,8 +39,6 @@ public class RSA {
 		Debug.d("START");
 		try {
 			KeyGenerator key = new KeyGenerator();
-/*			key.setBitlen(128);
-*/		/*	key.generateKey();*/
 			key.savePrivateKey(FileUtils.ASSEST_DIR+"/rsa_private_key.key");
 			key.savePublicKey(FileUtils.ASSEST_DIR+"/rsa_public_key.key");
 		} catch (IOException e) {
