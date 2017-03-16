@@ -27,7 +27,6 @@ public class SendingPeer extends Thread{
 	
 	public void run() {		
 		
-	//	BufferedInputStream bis = null;
 		InputStream input = null;
 		DataOutputStream output = null;
 

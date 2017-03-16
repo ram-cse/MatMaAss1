@@ -43,9 +43,7 @@ public class ReceivingPeer extends Thread {
 			// initialize streams			
 			is = socket.getInputStream();
 			os = new FileOutputStream(pathFile + "\\" + fileName);
-			
-			//BufferedInputStream bis = new BufferedInputStream(is);
-			
+						
 			//@2017
 			Cryptor cryptor = App.getDownloadingCryptor();
 			int buff_size = 64;  // == RSA KEY
