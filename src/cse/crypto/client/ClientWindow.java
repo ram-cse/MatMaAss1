@@ -19,6 +19,7 @@ import java.net.ServerSocket;
 import java.util.Arrays;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,11 +37,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import cse.crypto.helper.App;
-import cse.crypto.helper.Debug;
 import cse.crypto.helper.App.AlgType;
-
-import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
 
 public class ClientWindow extends JFrame implements Runnable{
 

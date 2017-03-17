@@ -1,31 +1,27 @@
 package cse.crypto.client;
 
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 import cse.crypto.encryption.HashGenerationException;
 import cse.crypto.encryption.HashGeneratorUtils;
 import cse.crypto.helper.Debug;
 
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
-
 public class CheckSumDialog extends JDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected JFileChooser fileChooserSrc;
 	protected JFileChooser fileChooserDes;
 	private JTextField txtSrc;
