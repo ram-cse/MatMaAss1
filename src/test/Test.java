@@ -7,9 +7,9 @@ import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 
-import cse.crypt.encryption.DAESCryptor;
-import cse.crypt.helper.Debug;
-import cse.crypt.helper.App.AlgType;
+import cse.crypto.encryption.DAESCryptor;
+import cse.crypto.helper.Debug;
+import cse.crypto.helper.App.AlgType;
 
 public class Test {
 	
