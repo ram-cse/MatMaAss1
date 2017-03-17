@@ -72,5 +72,14 @@ public class RSACryptor extends Cryptor{
 } catch (IOException e) {
 	e.printStackTrace();
 }*/
+	
+	public PublicKey getPublicKey() {
+		return publicKeyV1;
+	}
+	
+	public PrivateKey getPrivateKey() {
+		return privateKeyV1;
+	}
+	
 
 }

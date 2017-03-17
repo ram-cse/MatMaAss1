@@ -84,5 +84,9 @@ public class DAESCryptor extends Cryptor {
 			e.printStackTrace();
 		}
 	}
+	
+	public CryptorKeys getKeys() {
+		return keys;
+	}
 
 }

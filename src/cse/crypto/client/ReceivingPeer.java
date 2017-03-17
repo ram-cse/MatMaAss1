@@ -8,8 +8,6 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 import cse.crypto.encryption.Cryptor;
-import cse.crypto.encryption.DAESCryptor;
-import cse.crypto.encryption.RSACryptor;
 import cse.crypto.helper.App;
 import cse.crypto.helper.App.AlgType;
 import cse.crypto.helper.Debug;
@@ -48,20 +46,19 @@ public class ReceivingPeer extends Thread {
 						
 			//@2017
 			
-			
 			char c;
 			StringBuffer algName = new StringBuffer(); 
 			while((c = is.readChar()) != '/'){
 				algName.append(c);
 			}
 			AlgType algType = AlgType.valueOf(algName.toString());
-			
+		
 			Cryptor cryptor = App.getCryptor(algType);
-			int bufferSize = 64;  // == RSA KEY
-			if(cryptor instanceof RSACryptor){
+			int bufferSize = 0;
+			if(algType == AlgType.RSA){
 				bufferSize = App.RSA_KEY_LEN / 8;
 				Debug.d("BUFF, RSA");
-			} else if(cryptor instanceof DAESCryptor){
+			} else if(algType == AlgType.AES || algType == AlgType.DES){
 				bufferSize = SendingPeer.SENDING_BUFFER_SIZE + App.AES_KEY_LEN / 8;
 				Debug.d("BUFF, DAES:" + algType.getName());
 			}
@@ -71,9 +68,6 @@ public class ReceivingPeer extends Thread {
 			int len, reads = 0;
 			
 			while ((len = is.read(buf)) > 0) {
-				
-				
-				
 				if(len < bufferSize){ // trim bytes
 					buf = Utils.trim(buf, len);
 				}
@@ -87,14 +81,28 @@ public class ReceivingPeer extends Thread {
 				clientWindow.updateStatus(row_index, p, "Downloading");
 			}
 			clientWindow.updateStatus(row_index, 100, "Complete");
-			//os.flush();
-			os.close();
-			is.close();
 			JOptionPane.showMessageDialog(null, "Download Complete !\nFile : " + fileName, "SUCCESS !", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Download Fail !", "ERROR !", JOptionPane.ERROR_MESSAGE);
+		}finally {
+			try{
+				os.flush();
+				os.close();
+				is.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		} 
 	}
+	
+/*	private String readChars(DataInputStream in, int endCode) throws IOException{
+		int ch;
+		StringBuffer buffer = new StringBuffer();
+		while((ch = in.readInt()) != endCode){
+			buffer.append(ch);
+		}
+		return buffer.toString();
+	}*/
 		
 }

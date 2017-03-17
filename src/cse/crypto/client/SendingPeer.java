@@ -49,6 +49,21 @@ public class SendingPeer extends Thread{
 			
 			output.writeChars(type.toString());
 			output.writeChar('/');
+			
+			/*if(type == AlgType.RSA){
+				RSACryptor rsa = (RSACryptor) cryptor;
+				output.writeChars(String.valueOf(rsa.getPublicKey().getEncoded())); // CHECK KEY contain value -1000001 '/'
+				output.writeInt(-1000001);;
+				output.writeChars(String.valueOf(rsa.getPrivateKey().getEncoded()));
+				output.writeInt(-1000001);
+			}else{
+				DAESCryptor rsa = (DAESCryptor) cryptor;
+				output.writeChars(String.valueOf(rsa.getKeys().getKey())); // CHECK KEY value -1000001 '/'
+				output.writeInt(-1000001);;
+				output.writeChars(String.valueOf(rsa.getKeys().getIv()));
+				output.writeInt(-1000001);
+			}*/
+			
 			while((len = input.read(buf)) > 0){
 				read_bytes = read_bytes + len;				
 				if(len < SENDING_BUFFER_SIZE){ // trim bytes
@@ -64,8 +79,7 @@ public class SendingPeer extends Thread{
 			e.printStackTrace();
 		}finally{
 			try {
-				//output.flush();
-		//		bis.close();
+				output.flush();
 				input.close();
 				output.close();
 			} catch (Exception e) {
