@@ -10,7 +10,7 @@ import javax.crypto.NoSuchPaddingException;
 import cse.crypto.encryption.rsa.RSAV1;
 import cse.crypto.helper.App;
 import cse.crypto.helper.Debug;
-import cse.crypto.helper.MyFileUtils;
+import cse.crypto.helper.Utils;
 
 public class RSACryptor extends Cryptor{
 
@@ -20,8 +20,8 @@ public class RSACryptor extends Cryptor{
 	protected PublicKey publicKeyV1;
 	protected PrivateKey privateKeyV1;
 	
-	private static final String PUBLIC_KEY_FILE_NAME =  MyFileUtils.DATA_DIR + "/rsa_public_key_v1.key";
-	private static final String PRIVATE_KEY_FILE_NAME =  MyFileUtils.DATA_DIR + "/rsa_private_key_v1.key";
+	private static final String PUBLIC_KEY_FILE_NAME =  Utils.DATA_DIR + "/rsa_public_key_v1.key";
+	private static final String PRIVATE_KEY_FILE_NAME =  Utils.DATA_DIR + "/rsa_private_key_v1.key";
 	
 	RSAV1 rsav1;
 	
@@ -37,14 +37,14 @@ public class RSACryptor extends Cryptor{
 	}
 	
 	private void setUpKey(){		
-		if(!MyFileUtils.isFileExist(PUBLIC_KEY_FILE_NAME)){
+		if(!Utils.isFileExist(PUBLIC_KEY_FILE_NAME)){
 			RSAV1.generateKey(App.RSA_KEY_LEN, PUBLIC_KEY_FILE_NAME, PRIVATE_KEY_FILE_NAME); // MAXIMUM DATA EN/DECYPT = 32 bytes
 			Debug.d("setUpKey()", "Gen new Key");
 		}
 		
 		try {
-			publicKeyV1 = (PublicKey)MyFileUtils.readFileObject(PUBLIC_KEY_FILE_NAME);
-			privateKeyV1 = (PrivateKey)MyFileUtils.readFileObject(PRIVATE_KEY_FILE_NAME);
+			publicKeyV1 = (PublicKey)Utils.readFileObject(PUBLIC_KEY_FILE_NAME);
+			privateKeyV1 = (PrivateKey)Utils.readFileObject(PRIVATE_KEY_FILE_NAME);
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}

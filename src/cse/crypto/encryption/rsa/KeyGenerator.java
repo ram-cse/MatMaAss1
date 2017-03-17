@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import cse.crypto.helper.MyFileUtils;
+import cse.crypto.helper.Utils;
 
 /**
  * @author vrams
@@ -88,7 +88,7 @@ public class KeyGenerator {
 			throw new RuntimeException("e == null");
 		}
 		String content = getN() + "/" + getE();
-		MyFileUtils.writeToFile(path, content);
+		Utils.writeToFile(path, content);
 	}
 
 	public void savePrivateKey(String path) throws IOException {
@@ -99,11 +99,11 @@ public class KeyGenerator {
 			throw new RuntimeException("d == null");
 		}
 		String content = getN() + "/" + getD();
-		MyFileUtils.writeToFile(path, content);
+		Utils.writeToFile(path, content);
 	}
 
 	public static Key readKeyFromFile(String file) throws IOException {
-		String txt = MyFileUtils.readPlainFile(file);
+		String txt = Utils.readPlainFile(file);
 		String key[] = txt.split("/");
 		if (key.length != 2) {
 			throw new RuntimeException("File containing key is invalid format: " + file);

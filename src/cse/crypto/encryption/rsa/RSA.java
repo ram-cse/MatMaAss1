@@ -5,7 +5,7 @@ import java.math.BigInteger;
 
 import cse.crypto.encryption.RSACryptor;
 import cse.crypto.helper.Debug;
-import cse.crypto.helper.MyFileUtils;
+import cse.crypto.helper.Utils;
 
 /**
  * @author vrams
@@ -39,16 +39,16 @@ public class RSA {
 		Debug.d("START");
 		try {
 			KeyGenerator key = new KeyGenerator();
-			key.savePrivateKey(MyFileUtils.DATA_DIR+"/rsa_private_key.key");
-			key.savePublicKey(MyFileUtils.DATA_DIR+"/rsa_public_key.key");
+			key.savePrivateKey(Utils.DATA_DIR+"/rsa_private_key.key");
+			key.savePublicKey(Utils.DATA_DIR+"/rsa_public_key.key");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
-			Key publicKey = KeyGenerator.readKeyFromFile(MyFileUtils.DATA_DIR+"/rsa_private_key.key");
-			Key privateKey = KeyGenerator.readKeyFromFile(MyFileUtils.DATA_DIR+"/rsa_public_key.key");		
+			Key publicKey = KeyGenerator.readKeyFromFile(Utils.DATA_DIR+"/rsa_private_key.key");
+			Key privateKey = KeyGenerator.readKeyFromFile(Utils.DATA_DIR+"/rsa_public_key.key");		
 						
 			String text1 = "Ram �?iểu ususu 73737 DIEUDER g ô ơ  ê  nmdnnnd"
 					+ "JJJDJJDJDJJDJJDJDJJ jJDJDJDJD"

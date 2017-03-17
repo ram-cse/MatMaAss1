@@ -9,6 +9,8 @@ import java.net.Socket;
 
 import cse.crypto.encryption.Cryptor;
 import cse.crypto.helper.App;
+import cse.crypto.helper.App.AlgType;
+import cse.crypto.helper.Utils;
 
 public class SendingPeer extends Thread{
 	
@@ -37,22 +39,23 @@ public class SendingPeer extends Thread{
 			output = new DataOutputStream(socket.getOutputStream());
 			// write our username
 			input = new FileInputStream(new File(files.getAbsolutePath()));
-/*			bis = new BufferedInputStream(input);
-*/			
+		
 			byte[] buf = new byte[SENDING_BUFFER_SIZE];
 			int len, read_bytes=0;
 			
-			Cryptor cryptor = App.getSendingCryptor();
+			AlgType type = App.getSendingAlgName();
+			Cryptor cryptor = App.getCryptor(type);
 			byte[] cypher;
+			
+			output.writeChars(type.toString());
+			output.writeChar('/');
 			while((len = input.read(buf)) > 0){
 				read_bytes = read_bytes + len;				
 				if(len < SENDING_BUFFER_SIZE){ // trim bytes
-					 byte[] smallerData = new byte[len];
-			         System.arraycopy(buf, 0, smallerData, 0, len);
-			         buf = smallerData;
+					 buf = Utils.trim(buf, len);
 				}
 				//Encrypt
-				cypher = cryptor.encrypt(buf); // PLAIN DAY BUFF?
+				cypher = cryptor.encrypt(buf); 
 				//Send Cypher
 				output.write(cypher, 0, cypher.length); // write bytes to Output stream
 			}

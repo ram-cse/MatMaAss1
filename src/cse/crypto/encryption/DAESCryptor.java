@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import cse.crypto.encryption.daes.CryptorKeys;
 import cse.crypto.encryption.daes.DAES;
 import cse.crypto.helper.App;
-import cse.crypto.helper.MyFileUtils;
+import cse.crypto.helper.Utils;
 import cse.crypto.helper.App.AlgType;
 
 public class DAESCryptor extends Cryptor {
@@ -16,11 +16,11 @@ public class DAESCryptor extends Cryptor {
 	
 	private AlgType algType;
 	
-	private static final String AES_KEY_FILE = MyFileUtils.DATA_DIR + "/aes_key.key";
-	private static final String AES_IV_FILE = MyFileUtils.DATA_DIR + "/aes_iv.key";
+	private static final String AES_KEY_FILE = Utils.DATA_DIR + "/aes_key.key";
+	private static final String AES_IV_FILE = Utils.DATA_DIR + "/aes_iv.key";
 	
-	private static final String DES_KEY_FILE = MyFileUtils.DATA_DIR + "/des_key.key";
-	private static final String DES_IV_FILE = MyFileUtils.DATA_DIR + "/des_iv.key";
+	private static final String DES_KEY_FILE = Utils.DATA_DIR + "/des_key.key";
+	private static final String DES_IV_FILE = Utils.DATA_DIR + "/des_iv.key";
 	
 	public DAESCryptor(AlgType type) {
 		this.algType = type;
@@ -45,7 +45,7 @@ public class DAESCryptor extends Cryptor {
 	//======================================== SET UP KEY============================================//
 	
 	private void setUpKey() throws Exception{
-		/*if(!MyFileUtils.isFileExist(KEY_FILE)){
+		/*if(!Utils.isFileExist(KEY_FILE)){
 			// CREATE NEW KEY
 			AesKey aesKey = AES.generateKey(KEY_BIT_LEN);
 				FileUtils.writeObject(aesKey, KEY_FILE);
@@ -59,8 +59,8 @@ public class DAESCryptor extends Cryptor {
 	}
 	
 	public static void storeKey(CryptorKeys aesKey, String keyFilePath, String ivFilePath) throws IOException{
-		MyFileUtils.writeBytes(keyFilePath, aesKey.getKey());
-		MyFileUtils.writeBytes(ivFilePath, aesKey.getIv());
+		Utils.writeBytes(keyFilePath, aesKey.getKey());
+		Utils.writeBytes(ivFilePath, aesKey.getIv());
 	}
 	
 	

@@ -1,7 +1,7 @@
 package cse.crypto.client;
 
+import java.io.DataInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
@@ -11,7 +11,9 @@ import cse.crypto.encryption.Cryptor;
 import cse.crypto.encryption.DAESCryptor;
 import cse.crypto.encryption.RSACryptor;
 import cse.crypto.helper.App;
+import cse.crypto.helper.App.AlgType;
 import cse.crypto.helper.Debug;
+import cse.crypto.helper.Utils;
 
 public class ReceivingPeer extends Thread {
 	
@@ -35,36 +37,45 @@ public class ReceivingPeer extends Thread {
 	
 	public void run() {
 		Socket socket;	
-		InputStream is = null;
+		DataInputStream is = null;
 		OutputStream os = null;
 		
 		try {
 			socket = new Socket(address, port);
 			// initialize streams			
-			is = socket.getInputStream();
+			is = new DataInputStream(socket.getInputStream());
 			os = new FileOutputStream(pathFile + "\\" + fileName);
 						
 			//@2017
-			Cryptor cryptor = App.getDownloadingCryptor();
-			int buff_size = 64;  // == RSA KEY
+			
+			
+			char c;
+			StringBuffer algName = new StringBuffer(); 
+			while((c = is.readChar()) != '/'){
+				algName.append(c);
+			}
+			AlgType algType = AlgType.valueOf(algName.toString());
+			
+			Cryptor cryptor = App.getCryptor(algType);
+			int bufferSize = 64;  // == RSA KEY
 			if(cryptor instanceof RSACryptor){
-				buff_size = App.RSA_KEY_LEN / 8;
+				bufferSize = App.RSA_KEY_LEN / 8;
 				Debug.d("BUFF, RSA");
 			} else if(cryptor instanceof DAESCryptor){
-				buff_size = SendingPeer.SENDING_BUFFER_SIZE + App.AES_KEY_LEN / 8;
-				Debug.d("BUFF, DAES:" + App.getDownloadingAlgName() );
+				bufferSize = SendingPeer.SENDING_BUFFER_SIZE + App.AES_KEY_LEN / 8;
+				Debug.d("BUFF, DAES:" + algType.getName());
 			}
 			
 			byte[] plain = null;
-			byte[] buf = new byte[buff_size];
+			byte[] buf = new byte[bufferSize];
 			int len, reads = 0;
 			
 			while ((len = is.read(buf)) > 0) {
 				
-				if(len < buff_size){ // trim bytes
-					 byte[] smallerData = new byte[len];
-			         System.arraycopy(buf, 0, smallerData, 0, len);
-			         buf = smallerData;
+				
+				
+				if(len < bufferSize){ // trim bytes
+					buf = Utils.trim(buf, len);
 				}
 				
 				//DECRYPT @2017
@@ -85,5 +96,5 @@ public class ReceivingPeer extends Thread {
 			JOptionPane.showMessageDialog(null, "Download Fail !", "ERROR !", JOptionPane.ERROR_MESSAGE);
 		} 
 	}
-
+		
 }

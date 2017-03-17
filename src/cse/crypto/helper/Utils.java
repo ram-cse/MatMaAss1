@@ -12,9 +12,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class MyFileUtils {
+public class Utils {
 
 	public static String DATA_DIR = "./src/data";
+	
+	public static byte[] trim(byte[] b, int dataLen){
+		 byte[] smallerData = new byte[dataLen];
+        System.arraycopy(b, 0, smallerData, 0, dataLen);
+		return smallerData;
+		
+	}
 	
 	public static boolean isFileExist(String fileName){
 		File file = new File(fileName);

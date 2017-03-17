@@ -194,7 +194,7 @@ public class ClientWindow extends JFrame implements Runnable{
 				btnDownload.setEnabled(false);
 			}
 		});
-		btnDownload.setBounds(702, 49, 89, 23);
+		btnDownload.setBounds(702, 33, 89, 23);
 		contentPane.add(btnDownload);
 		
 		txtSearch = new JTextField();
@@ -389,40 +389,6 @@ public class ClientWindow extends JFrame implements Runnable{
 		lblAl.setBounds(702, 321, 46, 14);
 		contentPane.add(lblAl);
 		
-		JComboBox<String> comboBoxReceiveAlSelect = new JComboBox<String>();
-		comboBoxReceiveAlSelect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		comboBoxReceiveAlSelect.setBounds(721, 18, 63, 20);
-		
-		comboBoxReceiveAlSelect.addItem("RSA");
-		comboBoxReceiveAlSelect.addItem("DES");
-		comboBoxReceiveAlSelect.addItem("AES");
-		comboBoxReceiveAlSelect.addItemListener(new ItemListener() {
-			
-			@Override
-			public void itemStateChanged(ItemEvent item) {
-				if(item.getItem().toString().equals("RSA")){
-					App.setDownloadingAlgName(AlgType.RSA);
-				//	Debug.d("SELECTED", "RSA");
-				}else if(item.getItem().toString().equals("DES")){
-					App.setDownloadingAlgName(AlgType.DES);
-			//		Debug.d("SELECTED", "DES");
-				}else if(item.getItem().toString().equals("AES")){
-					App.setDownloadingAlgName(AlgType.AES);
-			//		Debug.d("SELECTED", "AES");
-				}	
-			}
-		});
-		comboBoxReceiveAlSelect.setSelectedIndex(0);
-		App.setDownloadingAlgName(AlgType.RSA);
-		contentPane.add(comboBoxReceiveAlSelect);
-		
-		JLabel lblAl_1 = new JLabel("AL:");
-		lblAl_1.setBounds(702, 21, 46, 14);
-		contentPane.add(lblAl_1);
-		
 		JButton btnCheckMd = new JButton("Check SUM");
 		btnCheckMd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -434,7 +400,7 @@ public class ClientWindow extends JFrame implements Runnable{
                 dialog.setDefaultCloseOperation(HIDE_ON_CLOSE);
 			}
 		});
-		btnCheckMd.setBounds(702, 411, 89, 23);
+		btnCheckMd.setBounds(702, 67, 89, 23);
 		contentPane.add(btnCheckMd);
 		
 		

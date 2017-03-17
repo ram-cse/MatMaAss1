@@ -8,7 +8,7 @@ import java.security.PublicKey;
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
-import cse.crypto.helper.MyFileUtils;
+import cse.crypto.helper.Utils;
 
 
 public class RSAV1 {
@@ -37,8 +37,8 @@ public class RSAV1 {
       keyGen.initialize(keySize);
       final KeyPair key = keyGen.generateKeyPair(); // GENERATE KEY
       
-      MyFileUtils.writeObject(key.getPublic(), publicKeyFileName);
-      MyFileUtils.writeObject(key.getPrivate(), privateKeyFileName);
+      Utils.writeObject(key.getPublic(), publicKeyFileName);
+      Utils.writeObject(key.getPrivate(), privateKeyFileName);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -77,21 +77,21 @@ public class RSAV1 {
    */
   public static void main(String[] args) {
 	  
-	  String publicKeyFileName = MyFileUtils.DATA_DIR +"/rsa_public_key_v1.key";
-	  String privateKeyFileName = MyFileUtils.DATA_DIR +"/rsa_private_key_v1.key";
+	  String publicKeyFileName = Utils.DATA_DIR +"/rsa_public_key_v1.key";
+	  String privateKeyFileName = Utils.DATA_DIR +"/rsa_private_key_v1.key";
 	  
     try {
         generateKey(64 * 8, publicKeyFileName, privateKeyFileName); // 64 bytes
 
       final String originalText = "Text to be encrypted ";
-      final PublicKey publicKey = (PublicKey) MyFileUtils.readFileObject(publicKeyFileName);
+      final PublicKey publicKey = (PublicKey) Utils.readFileObject(publicKeyFileName);
       
       RSAV1 rsav1 = new RSAV1();
       
       final byte[] cipherText = rsav1.encrypt(originalText.getBytes(), publicKey);
 
       // Decrypt the cipher text using the private key.
-      final PrivateKey privateKey = (PrivateKey)MyFileUtils.readFileObject(privateKeyFileName);
+      final PrivateKey privateKey = (PrivateKey)Utils.readFileObject(privateKeyFileName);
       final byte[] plainText = rsav1.decrypt(cipherText, privateKey);
 
       // Printing the Original, Encrypted and Decrypted Text

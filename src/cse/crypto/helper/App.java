@@ -7,7 +7,6 @@ import cse.crypto.encryption.RSACryptor;
 public class App {
 	
 	private static AlgType sendAlgName = AlgType.RSA;
-	private static AlgType downloadAlgName = AlgType.RSA;
 	
 	//RSA
 	public static int RSA_KEY_LEN = 64 * 8;
@@ -21,9 +20,18 @@ public class App {
 
 	
 	public enum AlgType{
-		RSA,
-		DES,
-		AES
+		RSA("RSA"),
+		DES("DES"),
+		AES("AES");
+		
+		final String name;
+		AlgType(String name){
+			this.name = name;
+		}
+		
+		public String getName() {
+			return name;
+		}
 	}
 	
 	public static AlgType getSendingAlgName() {
@@ -32,14 +40,6 @@ public class App {
 	
 	public static void setSendingAlgName(AlgType algName) {
 		sendAlgName = algName;
-	}
-	
-	public static void setDownloadingAlgName(AlgType receiveAlgName) {
-		downloadAlgName = receiveAlgName;
-	}
-	
-	public static AlgType getDownloadingAlgName() {
-		return downloadAlgName;
 	}
 	
 	public static Cryptor getSendingCryptor(){
@@ -66,9 +66,9 @@ public class App {
 		return cryptor;
 	}
 	
-	public static Cryptor getDownloadingCryptor(){
+	public static Cryptor getCryptor(AlgType type){
 		Cryptor cryptor = null;
-		switch (downloadAlgName) {
+		switch (type) {
 		case RSA:
 			cryptor = new RSACryptor();
 			Debug.d("getDownloadingCryptor", "RSA");
