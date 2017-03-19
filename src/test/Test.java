@@ -7,25 +7,38 @@ import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 
+import cse.crypto.encryption.Cryptor;
 import cse.crypto.encryption.DAESCryptor;
+import cse.crypto.encryption.RSACryptor;
 import cse.crypto.helper.Debug;
 import cse.crypto.helper.App.AlgType;
 
 public class Test {
 	
 	public static void main(String[] args) {
-		testAES();
+		testDAES(AlgType.AES);
+		testDAES(AlgType.DES);
+		testRAS();
 	}
 	
-	private static void testAES(){
-		String plainText = "Hello Ram Điểu";
+	private static void testRAS(){
+		Cryptor criptor = new RSACryptor();
+		testDAES(criptor);
+	}
+	
+	private static void testDAES(AlgType algType){
+		Cryptor criptor = new DAESCryptor(algType);
+		testDAES(criptor);
+	}
+	
+	private static void testDAES(Cryptor criptor){
+		String plainText = " C DIDIIDI HFHH 883 784900 \t \b /n6^^ (())";
 		Debug.d("PlainText", plainText);
-		DAESCryptor aes = new DAESCryptor(AlgType.DES);
 		try {
-			byte[] cp = aes.encrypt(plainText.getBytes());
+			byte[] cp = criptor.encrypt(plainText.getBytes());
 			Debug.d("CP", new String(cp));
 			
-			byte[] pl = aes.decrypt(cp);
+			byte[] pl = criptor.decrypt(cp);
 			Debug.d("DECYPT", new String(pl));
 			
 		} catch (Exception e) {

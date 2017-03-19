@@ -37,7 +37,11 @@ public class ReceivingPeer extends Thread {
 		Socket socket;	
 		DataInputStream is = null;
 		OutputStream os = null;
-		
+		int bufferSize = 0;
+		int len = 0;
+		int reads = 0;
+		byte[] plain = null;
+		Cryptor cryptor;
 		try {
 			socket = new Socket(address, port);
 			// initialize streams			
@@ -52,26 +56,22 @@ public class ReceivingPeer extends Thread {
 				algName.append(c);
 			}
 			AlgType algType = AlgType.valueOf(algName.toString());
-		
-			Cryptor cryptor = App.getCryptor(algType);
-			int bufferSize = 0;
+			Debug.d("ALG:" + algType.getName());
 			if(algType == AlgType.RSA){
 				bufferSize = App.RSA_KEY_LEN / 8;
-				Debug.d("BUFF, RSA");
-			} else if(algType == AlgType.AES || algType == AlgType.DES){
-				bufferSize = SendingPeer.SENDING_BUFFER_SIZE + App.AES_KEY_LEN / 8;
-				Debug.d("BUFF, DAES:" + algType.getName());
+			} else if(algType == AlgType.AES){
+				bufferSize = App.AES_SENDING_BUFFER + App.AES_IV_LEN;
+			}else if(algType == AlgType.DES){
+				bufferSize = App.DES_SENDING_BUFFER + App.DES_IV_LEN;
 			}
-			
-			byte[] plain = null;
+			cryptor = App.getCryptor(algType);
 			byte[] buf = new byte[bufferSize];
-			int len, reads = 0;
 			
 			while ((len = is.read(buf)) > 0) {
 				if(len < bufferSize){ // trim bytes
 					buf = Utils.trim(buf, len);
 				}
-				
+				//Debug.d("CP: " + len);
 				//DECRYPT @2017
 				plain = cryptor.decrypt(buf); // DATA == BUFF?
 				//WRITE PLAIN_TEXT @2017

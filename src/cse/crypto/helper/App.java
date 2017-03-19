@@ -9,13 +9,18 @@ public class App {
 	private static AlgType sendAlgName = AlgType.RSA;
 	
 	//RSA
-	public static int RSA_KEY_LEN = 64 * 8;
+	public final static int RSA_KEY_LEN = 64 * 8;
+	public final static int RSA_SENDING_BUFFER = 32;
 	
 	//AES
-	public static int AES_KEY_LEN = 128;
+	public final static int AES_KEY_LEN = 128;
+	public final static int AES_IV_LEN = 16;
+	public final static int AES_SENDING_BUFFER = 1024;
 	
 	//DES
-	public static int DES_KEY_LEN = 56;
+	public final static int DES_KEY_LEN = 56;
+	public final static int DES_IV_LEN = 8;
+	public final static int DES_SENDING_BUFFER = 1024;
 
 
 	

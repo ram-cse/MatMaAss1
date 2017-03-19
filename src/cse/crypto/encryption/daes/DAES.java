@@ -16,6 +16,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import cse.crypto.helper.App;
 import cse.crypto.helper.App.AlgType;
 
 public class DAES {
@@ -77,7 +78,7 @@ public class DAES {
 	/*
 	 * Auto Key
 	 */
-	public static CryptorKeys generateKey(int bitlen, AlgType type) {
+	public static CryptorKeys generateKey(int bitlen, AlgType type) throws NoSuchAlgorithmException, NoSuchPaddingException {
 		CryptorKeys output = new CryptorKeys();
 		KeyGenerator gen = null;
 
@@ -98,9 +99,9 @@ public class DAES {
 	/*
 	 * Auto IV
 	 */
-	private static byte[] generateIv(AlgType algType) {
+	private static byte[] generateIv(AlgType algType) throws NoSuchAlgorithmException, NoSuchPaddingException {
 		SecureRandom random = new SecureRandom();
-		byte[] ivBytes = new byte[algType == AlgType.AES ? 16 : 8];
+		byte[] ivBytes = new byte[algType == AlgType.AES ? App.AES_IV_LEN : App.DES_IV_LEN];
 		random.nextBytes(ivBytes);
 		return ivBytes;
 	}

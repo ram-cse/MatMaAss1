@@ -2,6 +2,9 @@ package cse.crypto.encryption;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.NoSuchPaddingException;
 
 import cse.crypto.encryption.daes.CryptorKeys;
 import cse.crypto.encryption.daes.DAES;
@@ -80,6 +83,12 @@ public class DAESCryptor extends Cryptor {
 			storeKey(aesKey, DES_KEY_FILE, DES_IV_FILE);
 			
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

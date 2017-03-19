@@ -17,8 +17,6 @@ public class SendingPeer extends Thread{
 	private Files files;
 	private ServerSocket serverSocket;
 	
-	public static final int SENDING_BUFFER_SIZE = 32;
-
 	
 	public SendingPeer(ServerSocket serverSocket, String pathfile) {
 		this.files = new Files(pathfile);
@@ -31,8 +29,13 @@ public class SendingPeer extends Thread{
 		
 		InputStream input = null;
 		DataOutputStream output = null;
+		int bufferSize = -1;
+		int len = 0;
+		int read_bytes=0;
+		byte[] buf = null;
+		byte[] cypher;
+		Cryptor cryptor;
 
-		
 		try {
 			Socket socket = serverSocket.accept();
 			// initialize Streams
@@ -40,12 +43,20 @@ public class SendingPeer extends Thread{
 			// write our username
 			input = new FileInputStream(new File(files.getAbsolutePath()));
 		
-			byte[] buf = new byte[SENDING_BUFFER_SIZE];
-			int len, read_bytes=0;
 			
 			AlgType type = App.getSendingAlgName();
-			Cryptor cryptor = App.getCryptor(type);
-			byte[] cypher;
+			if(type == AlgType.RSA){
+				bufferSize = App.RSA_SENDING_BUFFER;
+			}else if(type == AlgType.DES){
+				bufferSize = App.DES_SENDING_BUFFER;
+			}else if(type == AlgType.AES){
+				bufferSize = App.AES_SENDING_BUFFER;
+			}else{
+				throw new RuntimeException("Unknown AlgType");
+			}
+			
+			buf = new byte[bufferSize];  
+			cryptor = App.getCryptor(type);
 			
 			output.writeChars(type.toString());
 			output.writeChar('/');
@@ -66,12 +77,13 @@ public class SendingPeer extends Thread{
 			
 			while((len = input.read(buf)) > 0){
 				read_bytes = read_bytes + len;				
-				if(len < SENDING_BUFFER_SIZE){ // trim bytes
+				if(len < bufferSize){ // trim bytes
 					 buf = Utils.trim(buf, len);
 				}
 				//Encrypt
 				cypher = cryptor.encrypt(buf); 
 				//Send Cypher
+//				Debug.d("Plain:" + len + "_Cp:" + cypher.length);
 				output.write(cypher, 0, cypher.length); // write bytes to Output stream
 			}
 			
